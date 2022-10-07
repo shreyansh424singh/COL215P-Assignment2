@@ -6,7 +6,6 @@ USE IEEE.NUMERIC_STD.ALL;
 ENTITY Main IS
 	PORT (
 		clk : IN std_logic;
-		start : IN std_logic;
         anode : OUT std_logic_vector(3 DOWNTO 0); -- Anode output for FPGA Seven Segment Display
         cathode : OUT std_logic_vector(7 DOWNTO 0) -- Cathode output for FPGA Seven Segment Display
 	);
