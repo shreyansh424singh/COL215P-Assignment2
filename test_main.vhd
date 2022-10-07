@@ -23,7 +23,7 @@ end component;
 
 begin 
 
-DUT: Main port map (clock, start); 
+DUT: Main port map (clock, start, anode, cathode); 
 
     clock <= not clock after 1 ns;
 
