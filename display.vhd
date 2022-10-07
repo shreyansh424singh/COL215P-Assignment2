@@ -25,7 +25,7 @@ entity Display is
         signal setAnode : unsigned(3 DOWNTO 0) := "1101"; -- Tracks the position of the selected digit. 0 indicates the display position in the bit string.
         signal digit : unsigned(3 DOWNTO 0) := "1111"; -- Tracks the value of the digit (0-9) to be displayed at the selected position. 
         -- Any value other than 0-9 displays no digit at that position. Used to create blink effect.
-        signal dp : std_logic; -- Tracks whether a DP is to be displayed at the position along with the digit.
+        signal dp : std_logic := '0'; -- Tracks whether a DP is to be displayed at the position along with the digit.
     
         -- Components
         -- ClockDivider: divides the master clock into various clocks(1Hz, 400Hz)
@@ -76,14 +76,9 @@ entity Display is
                 elsif(setAnode = "1101") then digit <= "0000";
                 elsif(setAnode = "1110") then digit <= answer;
                 end if;
-                -- Based on the setAnode state, the current DP state which has to be encoded to cathode signal and sent along with the appropriate anode signal is determined.
-                -- Set dp according to the value tracked by each decimal point bit
-                if(setAnode = "0111")    then dp <= '0';
-                elsif(setAnode = "1011") then dp <= '1';
-                elsif(setAnode = "1101") then dp <= '0';
-                elsif(setAnode = "1110") then dp <= '1';
-                else dp <='1';
-                end if;
+                
+                dp <= '0';
+                
                 -- assign anode 
                 anode <= std_logic_vector(setAnode);
                 -- cathode assigned in component BCD2SSD
