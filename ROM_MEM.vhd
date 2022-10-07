@@ -10,7 +10,7 @@ entity ROM_MEM is
         ADDR_WIDTH : integer := 10;
         DATA_WIDTH : integer := 8;
         IMAGE_SIZE : integer := 784;
-        IMAGE_FILE_NAME : string :="imgdata_digit5.mif";
+        IMAGE_FILE_NAME : string :="imgdata.mif";
         WEIGHT_FILE_NAME : string :="weights_bias.mif";
         WEIGHT_SIZE : integer := 50890
     );
