@@ -29,19 +29,19 @@ begin
     process 
     begin 
 
-        for I in 0 to 50 loop
+        for I in 0 to 5000 loop
             clk <= not(clk);
 
-            if(i = 10) then
+            if(i = 100) then
                 answer <= "0110";
 
-            elsif(i = 20) then
+            elsif(i = 2000) then
                 answer <= "0001";
 
-            elsif(i = 30) then
+            elsif(i = 2500) then
                 answer <= "1000";
                 
-            elsif(i = 40) then
+            elsif(i = 4000) then
                 answer <= "1001";
                 
             end if;

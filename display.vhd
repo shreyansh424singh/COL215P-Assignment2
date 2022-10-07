@@ -77,7 +77,7 @@ entity Display is
                 elsif(setAnode = "1110") then digit <= answer;
                 end if;
                 
-                dp <= '0';
+                dp <= '1';
                 
                 -- assign anode 
                 anode <= std_logic_vector(setAnode);
