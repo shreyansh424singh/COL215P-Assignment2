@@ -5,11 +5,6 @@ use ieee.numeric_std.all;
 
 ENTITY control_path IS
 port(
-    -- state: out integer range 0 to 20;
-    
-    -- layer : out std_logic;
-    -- out_ctr : out integer range 0 to 100;
-    -- in_ctr : out integer range 0 to 1000;
     clk : in std_logic;
     ROM_re  : out std_logic;
     ROM_access_addr  : out std_logic_vector(15 DOWNTO 0);
@@ -177,7 +172,6 @@ begin
                 MAC_cntrl <= '0';
                 MAC_inp1_ctrl <= '1';
                 MAC_inp2_ctrl <= '1';
-                -- j <= j+1;
                 state <= 25;
                 i <= 0;
             
@@ -448,13 +442,16 @@ begin
                 state <= 7;
             end if;
         
-        --  Compare 
+        -- Find the maximum value (state 19-23)
+        -- Initialise Values
         when 19 =>
             ii <= "0000";
             max_ctrl <= '0';
             state <= 20;
             RAM_re <= '0';
             RAM_read_addr <= x"800";
+
+        -- Start reading from RAM
         when 20 =>
             max_ctrl <= '0';
             if ii = "1010" then
@@ -463,49 +460,45 @@ begin
                 RAM_re <= '1';
                 state <= 21;    
             end if;
+
+        -- wait cycle for RAM to complete it's read 
         when 21 =>
             RAM_re <= '0';
             max_ctrl <= '0';
-            -- max_location <= max_location; 
             RAM_read_addr <= std_logic_vector(unsigned(RAM_read_addr) + 1);
             state <= 100;
             wait_next <= 22;
+
+        -- Compare this value
         when 22 =>
-            -- max_location <= max_location; 
             max_ctrl <= '1';
             state <= 23;
+        
+        -- Loop to check next value
         when 23 =>
             max_ctrl <= '0';
             ii <= ii + 1; 
             state <= 20;
+
         when 24 =>
             state <= 24;
         when 100 =>
             state <= wait_next;
-        when 101 =>
-            state <= 102;
-        when 102 =>
-            state <= 103;
-        when 103 =>
-            state <= wait_next;
+        -- when 101 =>
+        --     state <= 102;
+        -- when 102 =>
+        --     state <= 103;
+        -- when 103 =>
+        --     state <= wait_next;
         
-        -- when 110 =>
-        --     reg_in_inp1_c
-        --     state <= 111;
         
-        -- when 111 =>
-        --     state <= 1;
         when others =>
             bias_addition <= '0';
             layer <= '0';
-            -- out_ctr <= 0;
-            -- in_ctr <= 0;
             ROM_re <= '0';
-            -- ROM_access_addr <= x"0000";
             RAM_re <= '0';
             RAM_we <= '0';
             RAM_we_copy <= '0';
-            -- RAM_access_addr <= x"000";
             MAC_cntrl <= '0';
             MAC_inp1_ctrl <= '0';           
             MAC_inp2_ctrl <= '0';    
@@ -517,17 +510,14 @@ begin
             reg_out_we <='0';
             state <= 1;
 
-
         end case;
     end if;
     end process;
+    
     RAM_access_addr <= RAM_write_addr when RAM_we_copy = '1'
                     else RAM_read_addr;
     ROM_access_addr <= ROM_read_addr when bias_addition = '0'
                     else ROM_bias_addr;
     max_location <= ii;
-    -- state_out <= state;
-    -- cti <= i;
-    -- ctj <= j;
     
 end behavior;
