@@ -1,0 +1,4 @@
+v 4
+file . "control_part.vhd" "4473d537ea5cfe2dbb8feb6ff4dbc9fab94ee3f3" "20221006125926.214":
+  entity control_part at 1( 0) + 0 on 13;
+  architecture behavior of control_part at 42( 1031) + 0 on 14;
